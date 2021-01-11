@@ -1,0 +1,316 @@
+:root {
+	--primary-color: #1d976c;
+	--light-green-color: #93f9b9;
+	--light-gray-color: #f8f9fa;
+	--light-white-color: #fff;
+}
+body {
+	/* background-color: #ecf5f0; */
+	font-family: 'Century Gothic', Calibri, Arial;
+}
+.h-100 {
+	height: 100% !important;
+}
+.w-100 {
+	width: 100% !important;
+}
+.img-logo {
+	width: 40px;
+}
+.logout-nav {
+	color: var(--primary-color);
+	font-size: 20px;
+}
+.logout-nav:hover {
+	color: var(--light-green-color);
+}
+/* ----------------------------Registration---------------------------- */
+
+.register {
+	background-image: linear-gradient(120deg, #14815b 0%, #93f9b9 100%);
+	margin-top: 3%;
+	padding: 3%;
+	border-radius: 1.5rem;
+}
+.register-left {
+	text-align: center;
+	color: var(--light-white-color);
+	margin-top: 4%;
+}
+
+.register-right {
+	background: var(--light-gray-color);
+	border-radius: 1.5rem;
+	-webkit-box-shadow: 1px 2px 21px 5px rgba(12, 61, 43, 0.77);
+	box-shadow: 1px 2px 21px 5px rgba(12, 61, 43, 0.77);
+}
+.register-left img {
+	margin-top: 15%;
+	margin-bottom: 5%;
+	width: 35%;
+}
+.register-left p {
+	font-weight: lighter;
+	padding: 12%;
+	margin-top: -9%;
+}
+.register .register-form {
+	padding: 10% 10% 3% 10%;
+	margin-top: 10%;
+}
+.btnRegister {
+	float: right;
+	margin-top: 15%;
+	border: none;
+	border-radius: 0.8rem;
+	padding: 1.4%;
+	background: var(--primary-color);
+	color: var(--light-white-color);
+	font-weight: 600;
+	width: 50%;
+	cursor: pointer;
+}
+.register .nav-tabs {
+	margin-top: 3%;
+	border: none;
+	background: var(--primary-color);
+	border-radius: 1.5rem;
+	width: 25%;
+	float: right;
+}
+.register .nav-tabs .nav-link {
+	padding: 1%;
+	height: 25px;
+	font-weight: 500;
+	color: var(--light-white-color);
+	font-size: 0.9rem;
+	border-top-right-radius: 1.5rem;
+	border-bottom-right-radius: 1.5rem;
+}
+.register .nav-tabs .nav-link:hover {
+	border: none;
+}
+.register .nav-tabs .nav-link.active {
+	width: 100px;
+	color: var(--primary-color);
+	border: 2px solid var(--primary-color);
+	border-top-left-radius: 1.5rem;
+	border-bottom-left-radius: 1.5rem;
+	transition: transform 0.4s, color 0.4s, background-color 0.4s;
+}
+.register-heading {
+	text-align: center;
+	margin-top: 8%;
+	margin-bottom: -15%;
+	color: var(--primary-color);
+}
+
+input[type="submit"] {
+	outline: none;
+}
+input[type="submit"]::-moz-focus-inner {
+	border: 0;
+}
+.btnRegister:hover {
+	background-color: #22b481;
+}
+.have-account {
+	font-size: 0.9rem;
+	padding-left: 10%;
+	padding-bottom: 3%;
+}
+.have-account span {
+	color: var(--primary-color);
+}
+.have-account span:hover {
+	color: #22b481;
+	cursor: pointer;
+}
+/* ----------------------------User Dashboard---------------------------- */
+.user-body {
+	padding: 15px;
+}
+.card-user-body {
+	flex: 1 1 auto;
+	min-height: 1px;
+	padding: 1rem;
+}
+.breadcrumb-user {
+	background-image: linear-gradient(120deg, #14815b 0%, #93f9b9 100%);
+	-webkit-box-shadow: 1px 2px 10px 5px rgba(12, 61, 43, 0.26);
+	box-shadow: 1px 2px 10px 5px rgba(12, 61, 43, 0.26);
+}
+.breadcrumb-user li {
+	color: var(--light-white-color);
+}
+.link-user-breadcrumb {
+	color: var(--light-white-color);
+}
+.link-user-breadcrumb:hover {
+	color: var(--light-green-color);
+	text-decoration: none;
+}
+.link-user-breadcrumb::selection {
+	color: var(--light-green-color);
+}
+.card-shadow {
+	-webkit-box-shadow: 1px 2px 10px 5px rgba(12, 61, 43, 0.26);
+	box-shadow: 1px 2px 10px 5px rgba(12, 61, 43, 0.26);
+}
+.user-page-font {
+	color: var(--primary-color);
+}
+.user-page-line {
+	border-bottom: 1px solid var(--primary-color);
+}
+.btn-edit-user {
+	float: right;
+	margin-top: 5%;
+	border: none;
+	border-radius: 0.8rem;
+	padding: 1.4%;
+	background: var(--primary-color);
+	color: var(--light-white-color);
+	font-weight: 600;
+	width: 20%;
+	cursor: pointer;
+}
+.cancelattend {
+	color: rgba(180, 64, 64, 0.767);
+	cursor: pointer;
+}
+.cancelattend:hover {
+	color: rgb(173, 42, 42);
+	text-decoration: none;
+}
+.card-user-head {
+	background-image: linear-gradient(120deg, #14815b 0%, #93f9b9 100%);
+	color: var(--light-white-color);
+}
+.table-th {
+	color: var(--primary-color);
+}
+.gutters-sm {
+	margin-right: -8px;
+	margin-left: -8px;
+}
+.gutters-sm > .col,
+.gutters-sm > [class*=col-] {
+	padding-right: 8px;
+	padding-left: 8px;
+}
+.mb-3,
+.my-3 {
+	margin-bottom: 1rem !important;
+}
+/* ----------------------------Home Page---------------------------- */
+#navbar-homepage {
+	background-color: var(--primary-color);
+	height: 8vh;
+}
+.nav-item-home {
+	color: white;
+	font-size: 1.2rem;
+}
+.nav-item-home:hover {
+	color: var(--light-green-color);
+}
+.title-h2 {
+	color: var(--primary-color);
+}
+.breadcrumb-categories {
+	background-color: transparent;
+}
+
+.link-category-breadcrumb {
+	color: var(--primary-color);
+}
+.link-category-breadcrumb:hover {
+	color: var(--light-green-color);
+	text-decoration: none;
+}
+#quotes-section,
+footer {
+	background-color: #f8f8f8;
+}
+.quote-by {
+	display: block;
+	color: var(--primary-color);
+}
+.carousel-items {
+	padding: 0 10px;
+}
+.react-multiple-carousel__arrow:focus {
+	outline: none;
+}
+.card .category-boxes {
+	position: relative;
+	border: none;
+}
+.overlay {
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	background-color: var(--primary-color);
+	opacity: 0;
+	transition: .45s ease-in-out;
+	-webkit-transition: .45s ease-in-out;
+	-moz-transition: .45s ease-in-out;
+}
+.category-boxes:hover .overlay {
+	opacity: 0.8;
+	cursor: pointer;
+}
+.read-more {
+	font-size: 1.5rem;
+}
+.read-link,
+.read-link:hover {
+	color: var(--light-white-color);
+	text-decoration: none;
+}
+
+/* ----------------------------Visit Charity Page---------------------------- */
+
+.img-banner {
+	height: 50vh;
+	background: linear-gradient(-45deg, #14815b86, #93f9b871),
+		url('./images/banner.jpg') center center / cover no-repeat;
+}
+.img-banner h1 {
+	padding: 8% 0;
+	color: var(--light-white-color);
+	font-size: 7vw;
+	font-family: "Berlin Sans FB Demi";
+	font-weight: bold;
+	text-transform: capitalize;
+}
+.text-color {
+	color: var(--primary-color);
+	font-weight: 400;
+}
+.card-charity-info,
+.card-charity-info li {
+	border: none;
+	line-height: 0.4;
+	padding-left: 0;
+}
+.sticky-top {
+	top: 2em;
+}
+.description-p {
+	text-align: justify;
+}
+.news-div {
+	border-bottom: 1px solid var(--primary-color);
+}
+.news-title {
+	margin: 10px 0 2px 0;
+	font-size: 1.1rem;
+	color: var(--primary-color);
+}
+.news-date {
+	font-size: 0.8rem;
+}
