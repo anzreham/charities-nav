@@ -13,16 +13,28 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django import urls
 from django.contrib import admin
-from django.urls import path,include 
+from django.urls import path,include,re_path 
 from charityApp import views
 from userApp import views as user_views
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
+from dj_rest_auth.views import (
+    LoginView, LogoutView, UserDetailsView, PasswordChangeView,
+    PasswordResetView, PasswordResetConfirmView
+)
+from dj_rest_auth.registration.views import RegisterView, VerifyEmailView
+
+from rest_framework_swagger.views import get_swagger_view
+schema_view = get_swagger_view(title='Charity API')
 
 router = DefaultRouter()
 # router.register(r'news', views.NewsViewSet)
 urlpatterns = [
+    path('users/',include('userApp.urls',namespace='users')),
+    re_path(r'^docs/$', get_swagger_view(title='API Docs'), name='api_docs'),
+
     path('admin/', admin.site.urls),
     path(r'api/', include(router.urls)),
     path(r'api/allusers', user_views.UserViewSet.as_view()),
@@ -44,5 +56,7 @@ urlpatterns = [
     path(r'api/charity/<int:charity_id>/location/', views.CharityLocationViewSet.as_view()),
     path(r'api/appointments', views.BookAppointmentViewSet.as_view()),
     path(r'api/bookappointment/<int:user_id>', views.BookAppointmentDetailsViewSet.as_view()),
-    path(r'api/charity/locations/', views.AllCharityLocationsViewSet.as_view()),     
+    path(r'api/charity/locations/', views.AllCharityLocationsViewSet.as_view()),
+  
+
 ]

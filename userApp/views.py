@@ -4,7 +4,8 @@ from .models import User, Client, Charity, Category
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import authenticate, login, logout
-from .serializers import CategorySerializer,UserSerializer, UserSessionSerializer, ClientProfileSerializer, CharityProfileSerializer
+from .serializers import CategorySerializer, ClientSerializer,UserSerializer, UserSessionSerializer, ClientProfileSerializer,\
+                                             CharityProfileSerializer,CharityRegisterSerializer
 
 class CategoryViewSet(APIView):
     queryset = Category.objects.all()
@@ -127,3 +128,46 @@ class CharityDetails(APIView):
         except Exception as error:
             return Response({"errors": str(error)})        
 
+from dj_rest_auth.registration.views import RegisterView
+from .serializers import ClientRegisterSerializer
+
+class ClientRegisterView(RegisterView):
+
+    """
+    Post request 
+
+
+        {
+    "email": "string",
+    "password1": "string",
+    "password2": "string",
+    "client_profile": {
+                        "gender":"Male or Female",
+                        "first_name": "string",
+                        "last_name": "string"
+                      }
+        }
+    """
+    serializer_class = ClientRegisterSerializer
+
+class CharityRegisterView(RegisterView):
+
+    """
+    Post request 
+
+
+        {
+    "email": "string",
+    "password1": "string",
+    "password2": "string",
+    "client_profile": {
+                        "name":"string",
+                        "description": "string",
+                        "logo": "string"
+                        "license_file": "string"
+                        "category": "string"
+                      }
+        }
+
+    """
+    serializer_class = CharityRegisterSerializer

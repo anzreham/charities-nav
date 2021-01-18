@@ -1,3 +1,4 @@
+from os import name
 from rest_framework import serializers
 from .models import User , Client, Charity, Category
 from django.contrib.auth import password_validation
@@ -56,9 +57,44 @@ class CharityProfileSerializer(serializers.ModelSerializer):
         charity = Charity.objects.create(user=get_user ,name=name, description=description,logo=logo,license_file=license_file,category=category) 
         return charity
  
+from dj_rest_auth.registration.serializers import RegisterSerializer
 
+class ClientSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Client
+        fields=('first_name','last_name','gender','created_at')
 
- 
+    def create(validated_data ,user):
+        return Client.objects.create(user=user,first_name = validated_data['first_name'],last_name= validated_data['last_name'],
+                                            gender=validated_data['gender'])
+
+class ClientRegisterSerializer(RegisterSerializer):
+
+    client_profile=ClientSerializer(required=True)
+    def custom_signup(self, request, user):
         
 
- 
+        ClientSerializer.create(validated_data= self.validated_data['client_profile'],user=user)
+        user.is_client=True
+        user.save()
+
+class CharitySerializer(serializers.ModelSerializer):
+    category =serializers.ChoiceField( 
+                        choices = Category.objects.all()) 
+    class Meta:
+        model = Charity
+        fields=('name','description','logo','license_file','category')
+    def create(validated_data ,user):
+        charity =Category.objects.get(validated_data['category'])
+        return Charity.objects.create(user=user,name = validated_data['name'],description= validated_data['description'],
+                                            logo=validated_data['logo'],category=validated_data['category'])
+  
+class CharityRegisterSerializer(RegisterSerializer):
+
+    charity_profile=CharitySerializer(required=True)
+    def custom_signup(self, request, user):
+        
+
+        ClientSerializer.create(validated_data= self.validated_data['charity_profile'],user=user)
+        user.is_charity=True
+        user.save()
