@@ -51,7 +51,7 @@ class Client(models.Model):
         MALE   = 'Male', _('Male')
         FEMALE = 'Female', _('Female')
 
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user        = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     first_name  = models.CharField(max_length=40)
     last_name   = models.CharField(max_length=40, blank=True, null=True)
     gender      = models.CharField(verbose_name=_('Gender'),choices=GenderChoices.choices,max_length=10)
@@ -67,7 +67,8 @@ class Category(models.Model):
     updated_at  = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return f'<Category object: ID:{self.id} name:{self.name}>'
+        #return f'<Category object: ID:{self.id} name:{self.name}>'
+        return self.name
         
 class Charity(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -79,6 +80,7 @@ class Charity(models.Model):
     updated_at      = models.DateTimeField(auto_now=True)
     category        = models.ForeignKey(Category, related_name='charities_in_group', on_delete=models.CASCADE,null=True) 
 
-    def __repr__(self):
-        return f'<Charity object: ID:{self.id} Name:{self.name} >'
+    def __str__(self):
+       # return f'<Charity object: ID:{self.id} Name:{self.name} >'
+       return self.name
 

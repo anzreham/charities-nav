@@ -1,4 +1,6 @@
 from os import name
+from django.core.validators import validate_integer
+from django.db.models.expressions import Value
 from rest_framework import serializers
 from .models import User , Client, Charity, Category
 from django.contrib.auth import password_validation
@@ -81,20 +83,30 @@ class ClientRegisterSerializer(RegisterSerializer):
 class CharitySerializer(serializers.ModelSerializer):
     category =serializers.ChoiceField( 
                         choices = Category.objects.all()) 
+
+    #category = serializers.CharField()
     class Meta:
         model = Charity
         fields=('name','description','logo','license_file','category')
+    
+    # def validate_category(self,value):
+    #      catogeries=Category.objects.values_list('name',flat=True)
+    #      if not (value in catogeries):
+    #          raise serializers.ValidationError('Please insert correct catogery',code=12)
+    #      else:
+    #         return value
+
     def create(validated_data ,user):
-        charity =Category.objects.get(validated_data['category'])
+    
+        catogery =Category.objects.get(name=validated_data['category'])
         return Charity.objects.create(user=user,name = validated_data['name'],description= validated_data['description'],
-                                            logo=validated_data['logo'],category=validated_data['category'])
+                                             logo=validated_data['logo'],category=catogery,license_file=validated_data['license_file'])
   
+
 class CharityRegisterSerializer(RegisterSerializer):
 
     charity_profile=CharitySerializer(required=True)
     def custom_signup(self, request, user):
-        
-
-        ClientSerializer.create(validated_data= self.validated_data['charity_profile'],user=user)
+        CharitySerializer.create(validated_data= self.validated_data['charity_profile'],user=user)
         user.is_charity=True
         user.save()
