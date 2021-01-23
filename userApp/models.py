@@ -71,7 +71,7 @@ class Category(models.Model):
         return self.name
         
 class Charity(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user            = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name            = models.CharField(max_length=40)
     description     = models.TextField(blank=True)
     logo            = models.CharField(max_length=120)

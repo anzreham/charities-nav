@@ -2,10 +2,12 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from .models import User, Client, Charity, Category
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,AllowAny
+
 from django.contrib.auth import authenticate, login, logout
 from .serializers import CategorySerializer, ClientSerializer,UserSerializer, UserSessionSerializer, ClientProfileSerializer,\
                                              CharityProfileSerializer,CharityRegisterSerializer
+
 
 class CategoryViewSet(APIView):
     queryset = Category.objects.all()
@@ -116,6 +118,11 @@ class ClientDetails(APIView):
     #     except Exception as error:
     #         return Response({"errors": str(error)})  
 
+class TestView(APIView):
+    #permission_classes=[IsAuthenticated,]
+    def get(self,request):
+        return Response('you are authenticated')
+
 class CharityDetails(APIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -160,7 +167,7 @@ class CharityRegisterView(RegisterView):
     "email": "string",
     "password1": "string",
     "password2": "string",
-    "client_profile": {
+    "charity_profile": {
                         "name":"string",
                         "description": "string",
                         "logo": "string"
@@ -171,3 +178,4 @@ class CharityRegisterView(RegisterView):
 
     """
     serializer_class = CharityRegisterSerializer
+    #permission_classes = [AllowAny, ]

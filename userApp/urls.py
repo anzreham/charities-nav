@@ -22,10 +22,12 @@ from allauth.account.views import (signup,login,logout,password_change,
                     
 from django.contrib.auth.views import PasswordResetCompleteView,PasswordChangeDoneView,PasswordResetConfirmView
 from rest_framework_simplejwt.views import TokenRefreshView
-from .views import ClientRegisterView,CharityRegisterView
+from .views import ClientRegisterView,CharityRegisterView,TestView
 app_name = 'users'
 #from .views import CustomRegisterView
 urlpatterns = [
+    path('test/',TestView.as_view(),name='test'),
+
      #path('api/', include(('users.api.urls','api') ,namespace='users_api')),
      path('api/refresh-token/', TokenRefreshView.as_view(), name='token_refresh'),
     # path('api/profile/', ProfileView.as_view(), name='rest_user_profile'),
