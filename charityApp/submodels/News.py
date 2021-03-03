@@ -8,5 +8,12 @@ class News(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='charitiy_news', on_delete=models.CASCADE) 
     
+
+    class Meta:
+        verbose_name_plural='News'
+
+    def  __str__(self):
+        return self.title
+
     def __repr__(self):
         return f'<News: ID:{self.id} Title:{self.title} content:{self.content} Charity ID:{self.user}>'

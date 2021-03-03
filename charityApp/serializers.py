@@ -6,6 +6,7 @@ from .submodels.Activity import Activity, Volunteering
 from .submodels.Charity import CharityLocation 
 from .submodels.UserAddress import UserAddress
 from userApp.serializers import UserSerializer
+from .submodels.News import News
 
 class UserAddressSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
@@ -42,18 +43,18 @@ class CharityLocationSerializer(serializers.ModelSerializer):
         return address
 
 
-class NewsSerializer(serializers.ModelSerializer):
-    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
-    class Meta:
-        model = News
-        fields = ('id', 'title','content','created_at','updated_at','user') 
-    def create(self, validated_data):
-        user = validated_data['user']
-        user.save()
-        title=validated_data['title']
-        content=validated_data['content']
-        news = News.objects.create(title=title,content=content,user=user) 
-        return news
+# class NewsSerializer(serializers.ModelSerializer):
+#     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+#     class Meta:
+#         model = News
+#         fields = ('id', 'title','content','created_at','updated_at','user') 
+#     def create(self, validated_data):
+#         user = validated_data['user']
+#         user.save()
+#         title=validated_data['title']
+#         content=validated_data['content']
+#         news = News.objects.create(title=title,content=content,user=user) 
+#         return news
 
 class ActivitySerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
@@ -97,4 +98,21 @@ class  BookAppointmentSerializer(serializers.ModelSerializer):
         charity=validated_data['charity']
         appt = BookAppointment.objects.create(size=size, amount=amount, date=date, time=time,category=category, user=user,charity=charity) 
         return appt
-        
+### updated#############
+class NewsSerliazer(serializers.ModelSerializer):
+
+    class Meta:
+        model = News
+        fields=['title','content','updated_at']
+
+    def create(self,validate_data,user):
+        return News.objects.create(user=user,**validate_data)
+
+
+    def update(self,obj,validate_date):
+        if 'title' in validate_date:
+            obj.title=validate_date['title']
+        if 'content' in validate_date:
+            obj.content=validate_date['content']
+        obj.save()
+        return obj
