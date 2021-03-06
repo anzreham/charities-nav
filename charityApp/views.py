@@ -307,3 +307,17 @@ class NewsDetialApiView(APIView):
 
        
 
+from rest_framework import generics
+
+
+
+class NewsDetail(generics.RetrieveUpdateDestroyAPIView):
+    #queryset = News.objects.filter(user=self.request.user,id=self.pk)
+    serializer_class = NewsSerliazer
+
+    def get_queryset(self):
+        query=News.objects.filter(user=self.request.user,id=self.kwargs['pk'])
+        return query
+    
+
+

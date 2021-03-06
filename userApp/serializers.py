@@ -5,7 +5,19 @@ from rest_framework import serializers
 from .models import User , Client, Charity, Category
 from django.contrib.auth import password_validation
 from django.contrib.auth.hashers import make_password
- 
+from django.contrib.auth import get_user_model
+
+UserModel=get_user_model()
+
+class CustomUserDetailsSerializer(serializers.ModelSerializer):
+       """
+       User model w/o password
+       """
+       class Meta:
+           model = UserModel
+           fields = ('username', 'email', 'first_name', 'last_name','is_charity')
+           read_only_fields = ('email', )
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category

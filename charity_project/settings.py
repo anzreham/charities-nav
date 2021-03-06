@@ -136,7 +136,7 @@ REST_FRAMEWORK = {
 REST_AUTH_SERIALIZERS = {
     #'REST_SESSION_LOGIN': False,
     #'LOGIN_SERIALIZER': 'users.serializers.CustomLoginSerializer',
-    #'USER_DETAILS_SERIALIZER':'users.serializers.CustomUserDetailsSerializer',
+    'USER_DETAILS_SERIALIZER':'userApp.serializers.CustomUserDetailsSerializer',
     #'PASSWORD_RESET_SERIALIZER':'users.serializers.CustomPasswordResetSerializer'
 }
 
