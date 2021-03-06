@@ -20,7 +20,7 @@ const CharityRegister = (props) => {
 
     function getAllCategories() {
       axios
-        .get('http://localhost:7000/api/categories/?format=json')
+        .get('http://localhost:8000/api/categories/?format=json')
         .then((res) => {
           console.log(res.data);
           setAllCategory(res.data)
@@ -31,10 +31,26 @@ const CharityRegister = (props) => {
      
   	const handleSubmitCharity = (e) => {
       e.preventDefault();
-      const addCharity={ "user": {"email":email,"phone_number":phone_number,"password":password } , "logo":"logo", "name":name,"license_file": license_file}
+
       
+     // const addCharity={ "user": {"email":email,"phone_number":phone_number,"password":password } , "logo":"logo", "name":name,"license_file": license_file}
+     const addCharity={
+        
+            "email": email,
+            "password1": password,
+            "password2": con,
+            "charity_profile": {
+            "name":name,
+            "description": "desc desc desc",
+            "logo": "_______",
+            "license_file": "_________",
+            "category": "Community Development"
+            }
+            
+      }
+
       axios
-        .post('http://localhost:7000/api/charities?format=json', addCharity)
+        .post('http://localhost:8000/users/api/signup/charity', addCharity)
         .then((res) => {
             console.log(addCharity)
             navigate("/charity-dashboard");

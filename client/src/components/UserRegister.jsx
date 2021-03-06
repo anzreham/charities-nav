@@ -8,15 +8,26 @@ const UserRegister = () => {
     const [last_name, setLastName]    = useState("") 
     const [email, setEmail]           = useState("")        
     const [phone_number, setPhone]    = useState("")     
-    const [gender, setGender]         = useState("Female")     
+    const [gender, setGender]         = useState("")     
     const [password, setPassword]     = useState("")  
  
     const handleSubmitUser = (e) => {
         e.preventDefault();
-        const addUser={ "user": {"email":email,"phone_number":phone_number,"password":password } ,"first_name":first_name, "last_name":last_name,"gender": gender}
-  
+        const addUser=
+        {
+            "email":email ,
+            "password1": password,
+            "password2": password,
+            "client_profile": {
+            "gender":gender,
+            "first_name":first_name,
+            "last_name":last_name
+            }
+            }
         axios
-          .post('http://localhost:7000/api/clients/?format=json', addUser)
+        
+          .post('http://localhost:8000/users/api/signup/client', addUser)
+
           .then((res) => {
             if(res.data.user.id != null){
                 Storage.set("id", res.data.user.id)

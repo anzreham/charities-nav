@@ -11,16 +11,27 @@ const Login = () => {
 
     const handleLogin = (e) => {  
         e.preventDefault();
-        const logUser={ email, password}
+        const logUser=
+        {
+            "username": email,
+            "email": email,
+            "password": password
+          }
+          console.log("log in button")  
         axios
-          .post('http://localhost:7000/api/sessions/?format=json', logUser)
+          .post('http://localhost:8000/users/api/login/', logUser)
           .then((res) => {
-               if(res.data.id != null){
-                  Storage.set("id",res.data.id)
-                  if(res.data.is_client){ 
-                    navigate(`/user-dashboard`)
-                  }else{
+            
+               if(res.data.user != null){
+                 
+                  if(res.data.user.is_charity){ 
+                    console.log("is charity:", res.data.user.is_charity)
                     navigate(`/charity-dashboard`)  
+
+ 
+                  }else{
+                    console.log("is client:", res.data.user.is_charity == false)
+                    navigate(`/user-dashboard`)  
                   }
                }
             } )  
