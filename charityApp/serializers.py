@@ -103,8 +103,8 @@ class NewsSerliazer(serializers.ModelSerializer):
 
     class Meta:
         model = News
-        fields=['title','content','updated_at']
-
+        fields=['id','title','content','updated_at']
+        read_only_fields = ['id']
     def create(self,validate_data,user):
         return News.objects.create(user=user,**validate_data)
 
