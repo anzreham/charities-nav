@@ -15,20 +15,15 @@ const UserRegister = () => {
         e.preventDefault();
         const addUser=
         {
-            "username": email,
-            "email": email,
+            "email":email ,
             "password1": password,
             "password2": password,
             "client_profile": {
-                "first_name": 
-                first_name
-                  ,
-                  "gender": 
-                  gender
-                  
-          
+            "gender":gender,
+            "first_name":first_name,
+            "last_name":last_name
             }
-          }
+            }
         axios
         
           .post('http://localhost:8000/users/api/signup/client', addUser)

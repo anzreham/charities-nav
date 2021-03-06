@@ -21,15 +21,17 @@ const Login = () => {
         axios
           .post('http://localhost:8000/users/api/login/', logUser)
           .then((res) => {
-            console.log(res.data.pk)  
-               if(res.data.pk != null){
+            
+               if(res.data.user != null){
                  
-                  if(res.data.is_client){ 
-                    console.log("is client:", res.data.is_client)
-                    navigate(`/user-dashboard`)
-                  }else{
-                    console.log("is charity:", res.data.is_charity)
+                  if(res.data.user.is_charity){ 
+                    console.log("is charity:", res.data.user.is_charity)
                     navigate(`/charity-dashboard`)  
+
+ 
+                  }else{
+                    console.log("is client:", res.data.user.is_charity == false)
+                    navigate(`/user-dashboard`)  
                   }
                }
             } )  

@@ -22,8 +22,8 @@ app_name='charity'
 
 urlpatterns = [
 path('news/',NewsApiView.as_view(),name='get_all_post_news'),
-path('news/<int:pk>/',NewsDetialApiView.as_view(),name='delete_update_news'),
-path('news1/<int:pk>/',NewsDetail.as_view(),name='news'),
+# path('news/<int:pk>/',NewsDetialApiView.as_view(),name='delete_update_news'),
+path('news-details/<int:pk>/',NewsDetail.as_view(),name='news'),
 
 
 
