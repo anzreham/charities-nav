@@ -13,6 +13,7 @@ from userApp.serializers import UserSerializer, CategorySerializer
 from .serializers import CharityLocationSerializer,UserAddressSerializer,BookAppointmentSerializer,ActivitySerializer,\
                         VolunteeringSerializer,NewsSerliazer
 from rest_framework import status
+
 class UserAddressViewSet(APIView):
     queryset = UserAddress.objects.all()
     serializer_class = UserAddressSerializer
@@ -50,40 +51,6 @@ class UserAddressViewSet(APIView):
         except Exception as error:
             return Response({"errors": str(error)})
 
-# class NewsViewSet(APIView):
-#     queryset = News.objects.all()
-#     serializer_class = NewsSerializer
-
-#     def get(self, request, format=None):
-#         news = News.objects.all()
-#         serializer = NewsSerializer(news, many=True)
-#         return Response(serializer.data)
-
-#     def post(self, request, format=None):
-#         try:
-#             getUser=User.objects.get(id=request.data.get('user', ''))
-#             if getUser.is_charity:
-#                 serializer = NewsSerializer(data=request.data,context={'request': request})
-#                 if serializer.is_valid():
-#                     serializer.save(user=getUser)
-#                     return Response(serializer.data)
-#                 return Response(serializer.errors)
-#             return Response({"errors": "Not allowed"})
-#         except Exception as error:
-#             return Response({"errors": str(error)})
- 
-# class NewsDetails(APIView):
-#     queryset = User.objects.all()
-#     serializer_class = UserSerializer
-
-#     def get(self, request, charity_id, format=None):
-#         try:
-#             news=News.objects.filter(user=charity_id)
-#             serializer = NewsSerializer(news, many=True)
-#             return Response(serializer.data)
-#         except Exception as error:
-#             return Response({"errors": str(error)})     
-
 class AllCharityLocationsViewSet(APIView):
     queryset = CharityLocation.objects.all()
     serializer_class = CharityLocationSerializer 
@@ -117,29 +84,7 @@ class CharityLocationViewSet(APIView):
         except Exception as error:
             return Response({"errors": str(error)})
 
-class ActivityViewSet(APIView):
-    queryset = Activity.objects.all()
-    serializer_class = ActivitySerializer
 
-    def get(self, request, format=None):
-        activities = Activity.objects.all()
-        serializer = ActivitySerializer(activities, many=True)
-        return Response(serializer.data)
-
-    def post(self, request, format=None):
-        try:
-            getUser=User.objects.get(id=request.data.get('user', ''))
-            if getUser.is_charity:
-                serializer = ActivitySerializer(data=request.data ,context={'request': request})
-                if serializer.is_valid():
-                    serializer.save(user=getUser)
-                    return Response(serializer.data)
-                return Response(serializer.errors)
-            return Response({"errors": "Not allowed"})
-        except Exception as error:
-            return Response({"errors": str(error)})
-
-class ActivityDetails(APIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -217,20 +162,6 @@ class BookAppointmentDetailsViewSet(APIView):
         except Exception as error:
             return Response({"errors": str(error)})  
 
-# class NewsDetailsViewSetDelete(mixins.DestroyModelMixin, generics.GenericAPIView):
-#     queryset = News.objects.all()
-#     serializer_class = NewsSerializer
-
-#     def delete(self, request,*args, **kwargs):
-#         return self.destroy(request, *args, **kwargs)
-
-class ActivityDetailsViewSetDelete(mixins.DestroyModelMixin, generics.GenericAPIView):
-    queryset = Activity.objects.all()
-    serializer_class = ActivitySerializer
-    
-    def delete(self, request,*args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
-
 
 
 ## update#######
@@ -240,6 +171,7 @@ class NewsApiView(APIView):
 
         try:
             queryset=News.objects.filter(user=request.user)
+            #make sure is valid jason data 
             serializer=NewsSerliazer(queryset,many=True)
             return Response(serializer.data,status=status.HTTP_200_OK)
 
@@ -261,56 +193,9 @@ class NewsApiView(APIView):
         except Exception as error:
             print('errors',error)
             return Response({"errors":'bad request'},status=status.HTTP_400_BAD_REQUEST)      
-    
 
-class NewsDetialApiView(APIView):
-    
-    def get(self, request,pk,format=None):
-
-        try:
-            try:
-                object=News.objects.get(user=request.user,id=pk)
-            except News.DoesNotExist:
-                    return Response({"errors":"you don't have such news"},status=status.HTTP_404_NOT_FOUND)
-            serializer=NewsSerliazer(object)
-            return Response(serializer.data,status=status.HTTP_200_OK)
-
-        except Exception as error:
-            print(error)
-            return Response({"errors":'bad request'},status=status.HTTP_400_BAD_REQUEST)      
-    
-    def delete (self,request,pk):
-        try:
-            object=News.objects.get(user=request.user,id=pk)
-        except News.DoesNotExist:
-            return Response({"errors":"you don't have such news"},status=status.HTTP_404_NOT_FOUND)
-        if object:
-            object.delete()
-            return Response({"message":'news deleted succesufuly '},status=status.HTTP_200_OK) 
-        else:
-            return Response({"errors":"News not found"},status=status.HTTP_404_NOT_FOUND)
-
-    
-    def put (self,request,pk):
-        try:
-            object=News.objects.get(user=request.user,id=pk)
-            serializer=NewsSerliazer(data=request.data)
-            if serializer.is_valid():
-                news=serializer.update(obj=object,validate_date=request.data)
-                #news=object.objects.update(**request.data)
-                ser=NewsSerliazer(instance=news)
-                return Response(ser.data,status=status.HTTP_200_OK)
-            else:
-                return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-        except News.DoesNotExist:
-            return Response({"errors":"you don't have such news"},status=status.HTTP_404_NOT_FOUND)
-
-       
 
 from rest_framework import generics
-
-
-
 class NewsDetail(generics.RetrieveUpdateDestroyAPIView):
     #queryset = News.objects.filter(user=self.request.user,id=self.pk)
     serializer_class = NewsSerliazer
@@ -318,6 +203,95 @@ class NewsDetail(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         query=News.objects.filter(user=self.request.user,id=self.kwargs['pk'])
         return query
+
+
+
+
+
+  
+class ActivitiesApiView(APIView):
+     
+    def get(self, request,format=None):
+
+        try:
+            queryset=Activity.objects.filter(user=request.user)
+            #make sure is valid jason data 
+            serializer=ActivitySerializer(queryset,many=True)
+            return Response(serializer.data,status=status.HTTP_200_OK)
+
+        except Exception as error:
+            print(error)
+            return Response({"errors":'bad request'},status=status.HTTP_400_BAD_REQUEST)      
     
+    def post(self,request,format=None):
+        try:
+            serializer=ActivitySerializer(data=request.data)
+            
+            if serializer.is_valid():
+                #news=News.objects.create(title=request.data['title'],content=request.data['content'],user=request.user)
+                activity=serializer.create(validate_data=request.data,user=request.user)
+                ser=ActivitySerializer(instance=activity)
+                return Response(ser.data,status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        except Exception as error:
+            print('errors',error)
+            return Response({"errors":'bad request'},status=status.HTTP_400_BAD_REQUEST)      
 
 
+
+class ActivityDetail(generics.RetrieveUpdateDestroyAPIView):
+    #queryset = News.objects.filter(user=self.request.user,id=self.pk)
+    serializer_class = ActivitySerializer
+
+    def get_queryset(self):
+        query=Activity.objects.filter(user=self.request.user,id=self.kwargs['pk'])
+        return query
+
+
+
+
+
+
+#class NewsDetialApiView(APIView):   
+#     def get(self, request,pk,format=None):
+
+#         try:
+#             try:
+#                 object=News.objects.get(user=request.user,id=pk)
+#             except News.DoesNotExist:
+#                     return Response({"errors":"you don't have such news"},status=status.HTTP_404_NOT_FOUND)
+#             serializer=NewsSerliazer(object)
+#             return Response(serializer.data,status=status.HTTP_200_OK)
+
+#         except Exception as error:
+#             print(error)
+#             return Response({"errors":'bad request'},status=status.HTTP_400_BAD_REQUEST)      
+    
+#     def delete (self,request,pk):
+#         try:
+#             object=News.objects.get(user=request.user,id=pk)
+#         except News.DoesNotExist:
+#             return Response({"errors":"you don't have such news"},status=status.HTTP_404_NOT_FOUND)
+#         if object:
+#             object.delete()
+#             return Response({"message":'news deleted succesufuly '},status=status.HTTP_200_OK) 
+#         else:
+#             return Response({"errors":"News not found"},status=status.HTTP_404_NOT_FOUND)
+
+    
+#     def put (self,request,pk):
+#         try:
+#             object=News.objects.get(user=request.user,id=pk)
+#             serializer=NewsSerliazer(data=request.data)
+#             if serializer.is_valid():
+#                 news=serializer.update(obj=object,validate_date=request.data)
+#                 #news=object.objects.update(**request.data)
+#                 ser=NewsSerliazer(instance=news)
+#                 return Response(ser.data,status=status.HTTP_200_OK)
+#             else:
+#                 return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+#         except News.DoesNotExist:
+#             return Response({"errors":"you don't have such news"},status=status.HTTP_404_NOT_FOUND)
+
+       

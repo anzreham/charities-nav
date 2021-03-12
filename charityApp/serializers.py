@@ -56,19 +56,7 @@ class CharityLocationSerializer(serializers.ModelSerializer):
 #         news = News.objects.create(title=title,content=content,user=user) 
 #         return news
 
-class ActivitySerializer(serializers.ModelSerializer):
-    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
-    class Meta:
-        model = Activity
-        fields = ['id', 'name','description','date','created_at','updated_at','user']  
-    def create(self, validated_data):
-        user = validated_data['user']
-        user.save()
-        name=validated_data['name']
-        description=validated_data['description']
-        date=validated_data['date']
-        activity = Activity.objects.create(name=name,description=description,date=date,user=user) 
-        return activity
+
 
 class VolunteeringSerializer(serializers.ModelSerializer): 
     user = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())
@@ -99,6 +87,7 @@ class  BookAppointmentSerializer(serializers.ModelSerializer):
         appt = BookAppointment.objects.create(size=size, amount=amount, date=date, time=time,category=category, user=user,charity=charity) 
         return appt
 ### updated#############
+
 class NewsSerliazer(serializers.ModelSerializer):
 
     class Meta:
@@ -114,5 +103,25 @@ class NewsSerliazer(serializers.ModelSerializer):
             obj.title=validate_date['title']
         if 'content' in validate_date:
             obj.content=validate_date['content']
+        obj.save()
+        return obj
+
+#updataed on friday 12/04/2021
+class ActivitySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Activity
+        #show the user name rather than the user id
+        fields = ['id', 'name','description','date','created_at','updated_at','user']  
+        read_only_fields = ['id','user']
+    def create(self,validate_data,user):
+        return Activity.objects.create(user=user,**validate_data)
+
+
+    def update(self,obj,validate_date):
+        if 'name' in validate_date:
+            obj.name=validate_date['name']
+        if 'description' in validate_date:
+            obj.description=validate_date['description']
         obj.save()
         return obj

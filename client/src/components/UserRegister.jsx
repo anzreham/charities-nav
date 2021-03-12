@@ -30,7 +30,7 @@ const UserRegister = () => {
 
           .then((res) => {
             if(res.data.user.id != null){
-                Storage.set("id", res.data.user.id)
+               
                 navigate("/user-dashboard")
             }
             })

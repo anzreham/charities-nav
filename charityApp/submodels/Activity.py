@@ -10,7 +10,8 @@ class Activity(models.Model):
     updated_at     = models.DateTimeField(auto_now=True)
     user     = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='charitiy_activities', on_delete=models.CASCADE) 
     #activity_volunteer FROM Volunterring   
-    
+    class Meta:
+        verbose_name_plural='Activities'
     def __repr__(self):
         return f'<Activity: ID:{self.id} Name:{self.name} Description:{self.description} Date:{self.date} Charity ID:{self.charity_id}>'
 

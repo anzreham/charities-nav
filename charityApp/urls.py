@@ -16,14 +16,18 @@ Including another URLconf
 from django import urls
 from django.contrib import admin
 from django.urls import path,include,re_path 
-from .views import NewsApiView,NewsDetialApiView,NewsDetail
+from .views import NewsApiView,NewsDetail,ActivitiesApiView, ActivityDetail
 # router.register(r'news', views.NewsViewSet)
 app_name='charity'
 
 urlpatterns = [
 path('news/',NewsApiView.as_view(),name='get_all_post_news'),
-# path('news/<int:pk>/',NewsDetialApiView.as_view(),name='delete_update_news'),
 path('news-details/<int:pk>/',NewsDetail.as_view(),name='news'),
+# path('news/<int:pk>/',NewsDetialApiView.as_view(),name='delete_update_news'),
+
+ path('activities/',ActivitiesApiView.as_view(), name='get_all_post_activities'),
+ path('activities_details/<int:pk>/',ActivityDetail.as_view(), name='activity')
+
 
 
 
