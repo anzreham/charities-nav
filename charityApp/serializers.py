@@ -125,3 +125,10 @@ class ActivitySerializer(serializers.ModelSerializer):
             obj.description=validate_date['description']
         obj.save()
         return obj
+
+
+class CharityListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model=Charity
+        fields =['name','description','category__name']
