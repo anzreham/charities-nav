@@ -131,4 +131,4 @@ class CharityListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model=Charity
-        fields =['name','description','category__name']
+        fields =['name','description','category_name']

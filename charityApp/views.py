@@ -11,9 +11,10 @@ from .submodels.Activity import Activity, Volunteering
 from .submodels.Charity import CharityLocation
 from userApp.serializers import UserSerializer, CategorySerializer
 from .serializers import CharityLocationSerializer,UserAddressSerializer,BookAppointmentSerializer,ActivitySerializer,\
-                        VolunteeringSerializer,NewsSerliazer
+                        VolunteeringSerializer,NewsSerliazer,CharityListSerializer
 from rest_framework import status
 
+from userApp.models import Charity,Category
 class UserAddressViewSet(APIView):
     queryset = UserAddress.objects.all()
     serializer_class = UserAddressSerializer
@@ -295,3 +296,9 @@ class ActivityDetail(generics.RetrieveUpdateDestroyAPIView):
 #             return Response({"errors":"you don't have such news"},status=status.HTTP_404_NOT_FOUND)
 
        
+from rest_framework.permissions import AllowAny
+class ListCharityView(generics.ListAPIView):
+    ## authentication required 
+    permission_classes=[AllowAny]
+    serializer_class =CharityListSerializer
+    queryset = Charity.objects.all()
