@@ -11,7 +11,7 @@ from .submodels.Activity import Activity, Volunteering
 from .submodels.Charity import CharityLocation
 from userApp.serializers import UserSerializer, CategorySerializer
 from .serializers import CharityLocationSerializer,UserAddressSerializer,BookAppointmentSerializer,ActivitySerializer,\
-                        VolunteeringSerializer,NewsSerliazer,CharityListSerializer
+                        VolunteeringSerializer,NewsSerliazer,CharityListSerializer,CategoryListSerializer
 from rest_framework import status
 
 from userApp.models import Charity,Category
@@ -302,3 +302,10 @@ class ListCharityView(generics.ListAPIView):
     permission_classes=[AllowAny]
     serializer_class =CharityListSerializer
     queryset = Charity.objects.all()
+
+
+class ListCategoryView(generics.ListAPIView):
+    ## authentication required 
+    permission_classes=[AllowAny]
+    serializer_class =CategoryListSerializer
+    queryset = Category.objects.all()

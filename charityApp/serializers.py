@@ -133,3 +133,10 @@ class CharityListSerializer(serializers.ModelSerializer):
     class Meta:
         model=Charity
         fields =['name','description','category_name']
+
+class CategoryListSerializer(serializers.ModelSerializer):
+    
+
+    class Meta:
+        model=Category
+        fields =['name']
