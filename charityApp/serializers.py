@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .submodels.News import News
-from userApp.models import User, Charity
+from userApp.models import Category, User, Charity
 from .submodels.Appointment import BookAppointment
 from .submodels.Activity import Activity, Volunteering
 from .submodels.Charity import CharityLocation 
@@ -128,6 +128,7 @@ class ActivitySerializer(serializers.ModelSerializer):
 
 
 class CharityListSerializer(serializers.ModelSerializer):
+    
 
     class Meta:
         model=Charity
