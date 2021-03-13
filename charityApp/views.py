@@ -11,7 +11,11 @@ from .submodels.Activity import Activity, Volunteering
 from .submodels.Charity import CharityLocation
 from userApp.serializers import UserSerializer, CategorySerializer
 from .serializers import CharityLocationSerializer,UserAddressSerializer,BookAppointmentSerializer,ActivitySerializer,\
-                        VolunteeringSerializer,NewsSerliazer,CharityListSerializer,CategoryListSerializer
+                        VolunteeringSerializer,NewsSerliazer,CharityListSerializer,CategoryListSerializer,AppointmentSerializer,\
+                            AppointmentSerializer2,CharityLocationSerializer
+
+from rest_framework.permissions import AllowAny
+
 from rest_framework import status
 
 from userApp.models import Charity,Category
@@ -296,7 +300,6 @@ class ActivityDetail(generics.RetrieveUpdateDestroyAPIView):
 #             return Response({"errors":"you don't have such news"},status=status.HTTP_404_NOT_FOUND)
 
        
-from rest_framework.permissions import AllowAny
 class ListCharityView(generics.ListAPIView):
     ## authentication required 
     permission_classes=[AllowAny]
@@ -309,3 +312,112 @@ class ListCategoryView(generics.ListAPIView):
     permission_classes=[AllowAny]
     serializer_class =CategoryListSerializer
     queryset = Category.objects.all()
+
+class ListClientAppointmentView(generics.ListAPIView):
+    ## authentication required 
+    #permission_classes=[AllowAny]
+    serializer_class =AppointmentSerializer
+    #queryset = BookAppointment.objects.filter(user=self.request.user)
+
+    def get_queryset(self):
+        query=BookAppointment.objects.filter(user=self.request.user)
+        return query
+
+class CreateAppointmentView(generics.CreateAPIView):
+    ## authentication required 
+    #permission_classes=[AllowAny]
+    serializer_class =AppointmentSerializer
+    #queryset = BookAppointment.objects.filter(user=self.request.user)
+
+    def get_queryset(self):
+        query=BookAppointment.objects.filter(user=self.request.user)
+        return query
+  
+    def get_serializer_context(self):
+        context=super().get_serializer_context()
+        context['user']=self.request.user
+        return context
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer,user=self.request.user)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+    # def permission_denied(self, request, message=None):
+    #     """
+    #     If request is not permitted, determine what kind of exception to raise.
+    #     """
+    #     if request.authenticators and not request.successful_authenticator:
+    #         raise exceptions.NotAuthenticated()
+    #     raise exceptions.PermissionDenied(detail=message)
+
+class ClientAppointmentDetail(generics.RetrieveUpdateDestroyAPIView):
+    #queryset = News.objects.filter(user=self.request.user,id=self.pk)
+    ## authentication required 
+    #permission_classes=[AllowAny]
+    serializer_class =AppointmentSerializer
+
+    allowed_methods=['GET','PUT','DELETE']
+    def get_queryset(self):
+        query=BookAppointment.objects.filter(user=self.request.user,id=self.kwargs['pk'])
+        return query
+
+    
+        
+
+##########################################################################
+  
+class ClientAppointmentApiView(APIView):
+     
+    def post(self,request,format=None):
+        try:
+            if (not request.user.is_client):
+                return Response({'message':'you do not have permissions'},status=status.HTTP_403_FORBIDDEN)
+            serializer=AppointmentSerializer(data=request.data)
+            
+            if serializer.is_valid():
+                serializer.validated_data['user']=request.user
+                #print(serializer.validated_data)
+                appointment=BookAppointment.objects.create(**serializer.validated_data)
+                #ser=appointment(instance=appointment)
+                return Response( serializer.data,status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        except Exception as error:
+            print('errors',error)
+            return Response({"errors":'bad request'},status=status.HTTP_400_BAD_REQUEST)      
+
+
+class CharityLocationListView(generics.ListAPIView):
+    #paginator=None
+    ## authentication required 
+    permission_classes=[AllowAny]
+    serializer_class =CharityLocationSerializer
+    #queryset = BookAppointment.objects.filter(user=self.request.user)
+
+    def get_queryset(self):
+        query=CharityLocation.objects.all()
+        return query
+
+
+
+class CharityLocatioApiView(APIView):
+     
+    def post(self,request,format=None):
+        try:
+            if (request.user.is_client):
+                return Response({'message':'you do not have permissions'},status=status.HTTP_403_FORBIDDEN)
+            serializer=CharityLocationSerializer(data=request.data)
+            
+            if serializer.is_valid():
+                serializer.validated_data['user']=request.user
+                #print(serializer.validated_data)
+                appointment=CharityLocation.objects.create(**serializer.validated_data)
+                #ser=appointment(instance=appointment)
+                return Response( serializer.data,status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        except Exception as error:
+            print('errors',error)
+            return Response({"errors":'bad request'},status=status.HTTP_400_BAD_REQUEST)      

@@ -1,3 +1,5 @@
+from django.db.models import fields
+from django.db.models.base import Model
 from rest_framework import serializers
 from .submodels.News import News
 from userApp.models import Category, User, Charity
@@ -140,3 +142,32 @@ class CategoryListSerializer(serializers.ModelSerializer):
     class Meta:
         model=Category
         fields =['name']
+
+
+class AppointmentSerializer(serializers.ModelSerializer):
+    
+
+    class Meta:
+        model=BookAppointment
+        fields =['id','description','amount','date','time','charity','accepted','user','charity_name']
+        read_only_fields = ['id','accepted']
+        extra_kwargs = {'user': {'write_only': True,'required':False},'charity': {'write_only': True}}
+
+
+class AppointmentSerializer2(serializers.ModelSerializer):
+    
+
+    class Meta:
+        model=BookAppointment
+        fields =['id','description','amount','date','time','charity','accepted']
+        read_only_fields = ['id','accepted']
+
+
+class CharityLocationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model=CharityLocation
+        fields=['longitude','latitude','charity_name']
+        read_only_fields = ['charity_name']
+
+
