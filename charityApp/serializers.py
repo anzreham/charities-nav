@@ -145,13 +145,16 @@ class CategoryListSerializer(serializers.ModelSerializer):
 
 
 class AppointmentSerializer(serializers.ModelSerializer):
-    
+    def to_representation(self, instance):
+            ret = super().to_representation(instance)
+            ret['charity'] = Charity.objects.get(id=ret['charity']).name
+            return ret
 
     class Meta:
         model=BookAppointment
-        fields =['id','description','amount','date','time','charity','accepted','user','charity_name']
+        fields =['id','description','amount','date','time','charity','accepted','user']
         read_only_fields = ['id','accepted']
-        extra_kwargs = {'user': {'write_only': True,'required':False},'charity': {'write_only': True}}
+        extra_kwargs = {'user': {'write_only': True,'required':False}}
 
 
 class AppointmentSerializer2(serializers.ModelSerializer):
