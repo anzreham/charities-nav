@@ -83,4 +83,7 @@ class Charity(models.Model):
     def __str__(self):
        # return f'<Charity object: ID:{self.id} Name:{self.name} >'
        return self.name
-
+    
+    @property
+    def category_name(self):
+      return self.category.name

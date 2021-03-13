@@ -16,7 +16,7 @@ Including another URLconf
 from django import urls
 from django.contrib import admin
 from django.urls import path,include,re_path 
-from .views import NewsApiView,NewsDetail,ActivitiesApiView, ActivityDetail
+from .views import ListCategoryView, NewsApiView,NewsDetail,ActivitiesApiView, ActivityDetail,ListCharityView, ListCategoryView
 # router.register(r'news', views.NewsViewSet)
 app_name='charity'
 
@@ -26,9 +26,11 @@ path('news-details/<int:pk>/',NewsDetail.as_view(),name='news'),
 # path('news/<int:pk>/',NewsDetialApiView.as_view(),name='delete_update_news'),
 
  path('activities/',ActivitiesApiView.as_view(), name='get_all_post_activities'),
- path('activities_details/<int:pk>/',ActivityDetail.as_view(), name='activity')
+ path('activities_details/<int:pk>/',ActivityDetail.as_view(), name='activity'),
 
+ path('charity_list/',ListCharityView.as_view(), name='charity_list'),
 
+ path('category_list/',ListCategoryView.as_view(), name='category_list')
 
 
 ]
