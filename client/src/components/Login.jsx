@@ -26,6 +26,8 @@ const Login = () => {
                  
                   if(res.data.user.is_charity){ 
                     console.log("is charity:", res.data.user.is_charity)
+                    Storage.set("token", res.data.access_token)
+                    console.log("token:", Storage.get("token"))
                     navigate(`/charity-dashboard`)  
 
  

@@ -8,27 +8,39 @@ import parse from "html-react-parser"
 
 
 const CharityNews = () => {
-    const [charityid, setid]               = useState(Storage.get("id"));
+  
     const [title, settitle]                = useState('');
     const [content, setContent]            = useState('');
-    const[messageSubmit, setMessageSubmit] = useState("")
+    const [jwtStr, setjwtStr]            = useState('');
+    const[messageSubmit, setMessageSubmit] = useState("");
      
     const handleSubmit = (e) => {
         e.preventDefault();
-        const addNews={ "content" : content , "title" :title , "user":charityid}
+        console.log("handle submit")
+        setjwtStr(Storage.get("token"))
+        const config = {
+            headers: { Authorization: `Bearer ${jwtStr}` }
+        };
+        const addNews={
+            "title": title,
+            "content": content
+         
+        }
+      
         axios
-          .post('http://localhost:7000/api/news?format=json', addNews)
+          .post('http://localhost:8000/api/charity/news/?format=json', addNews, config )
           .then((res) => {
-              console.log(res.data.errors)
+              
               if(!res.data.errors){
+                console.log("Your post has been submitted")
                   setMessageSubmit("Your post has been submitted")
                   settitle("")
                   setContent("")
               }else{
-                setMessageSubmit("")
+                setMessageSubmit("Not Submitted")
               }
             } )
-            .catch((err) => console.error(err) );
+            .catch((err) => setMessageSubmit("Not Submitted") );
     };
 
     return (
@@ -42,17 +54,17 @@ const CharityNews = () => {
                         <p>Please provide your information below.</p>
                     </div>  
                     <form>
-                        <div class="form-group row">
-                            <label for="inputEmail3" class="col-sm-2 col-form-label">Title</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="" onChange = {(e)=>settitle(e.target.value)}  value = {title}/>
+                        <div className="form-group row">
+                            <label  className="col-sm-2 col-form-label">Title</label>
+                            <div className="col-sm-10">
+                                <input type="text" className="form-control" id="" onChange = {(e)=>settitle(e.target.value)}  value = {title}/>
                             </div>
                         </div>
                     <ReactQuill theme="snow" value={content} onChange={setContent} />   
                     <div>
                         {/* {parse(content)}    */}
                     </div>
-                    <button className="btn mb-4  btn-lg btn-block"  id = "Charbtn" type='submit' onClick={()=>handleSubmit()}>Post</button> 
+                    <button className="btn mb-4  btn-lg btn-block"  id = "Charbtn" type='submit' onClick={handleSubmit} >Post</button> 
                     <p>{messageSubmit}</p>
                     </form>
                 </div>

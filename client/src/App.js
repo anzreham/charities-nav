@@ -13,6 +13,8 @@ import CharityActivities from './components/CharityActivities';
 import CharityNews from './components/CharityNews';
 import InformationCharity from './components/InformationCharity';
 import Charitylocation from './components/Charitylocation';
+import UpateActivity from './components/UpateActivity';
+
 
 function App() {
 	const handleLogout = () => {
@@ -37,6 +39,7 @@ function App() {
 				<CharityDetail path="/charity-detail" />
 				<CharityDetail path="/charity-detail" />
 				<CharityActivities path="/CharityActivities" />
+				<UpateActivity path="/updateActivity" />
 				<InformationCharity path="/charity/information/:pk" handleLogout={handleLogout} />
 				<Charitylocation path="/Charitylocation" />
 				<CharityNews path="/CharityNews" />

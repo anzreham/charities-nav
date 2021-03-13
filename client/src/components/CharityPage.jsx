@@ -5,51 +5,96 @@ import axios from 'axios';
 import './details.css';
 
 const CharityPage = () => {
-    const [charityid, setid] = useState(Storage.get("id"));
     const [allNews, setAllNews] = useState([])
     const [allActivites, setAllActivities] = useState([])
-    
+    const [jwtStr, setjwtStr]            = useState('');
+
     useEffect(() => {
+        setjwtStr(Storage.get("token"))
+        console.log(Storage.get("token"))
         getNews();
-        getActivities();
+         getActivities();
     },[ ]);
+    const getToken = () =>{
+        return Storage.get("token")
+    };
+    const getNews = () => {
+     
+        console.log("handle submit")
 
-    const getNews = () => { 
-        axios
-        .get(`http://localhost:7000/api/news/${charityid}`)
-        .then((res) => {
+        axios.get('http://localhost:8000/api/charity/news/', {
+           
+            headers: {
+                "Authorization": `Bearer ${getToken()}`
+            }
+          })
+          .then((res) => {
+            console.log(res.data)
             setAllNews(res.data)
-            } )
-            .catch((err) => console.error(err));
-        }
-
-    const getActivities = () => { 
-        axios
-        .get(`http://localhost:7000/api/activites/${charityid}`)
-        .then((res) => {
-            setAllActivities(res.data)
-            } )
-            .catch((err) => console.error(err));
-        }
-
-    const handleDeleteNews=(newsid)=>{
-        axios
-        .delete(`http://localhost:7000/api/news/delete/${newsid}?format=json`)
-        .then((res) => {
-            setAllNews(()=>allNews.filter(news => news.id !== newsid))
-            })
-        .catch((err) => console.error(err));
-    }
-    const handleDeleteActivity=(activid)=>{
-        axios
-        .delete(`http://localhost:7000/api/activity/delete/${activid}?format=json`)
-        .then((res) => {
-            setAllActivities(()=>allActivites.filter(activs => activs.id !== activid))
-            })
-        .catch((err) => console.error(err));
+          })
+          .catch((error) => {
+            console.error(error)
+          })
+         
     }
     
+
+ 
+
+
+const getActivities  = () => {
+ 
+    console.log("handle submit")
+    axios.get('http://localhost:8000/api/charity/activities/', {
+       
+        headers: {
+            "Authorization": `Bearer ${getToken()}`
+        }
+      })
+      .then((res) => {
+        console.log(res.data)
+        setAllActivities(res.data)
+      })
+      .catch((error) => {
+        console.error(error)
+      })   
+}
+
+const deleteNews  = (newsid) => {
+    console.log("handle submit")
+    axios.delete(`http://localhost:8000/api/charity/news-details/${newsid}/`, {
+       
+        headers: {
+            "Authorization": `Bearer ${getToken()}`
+        }
+      })
+      .then((res) => {
+        // console.log(res.data)
+        window.location.reload(false);      })
+      .catch((error) => {
+        console.error(error)
+      })   
+}
+
+const deleteActivity  = (activityid) => {
+    console.log("handle submit")
+    axios.delete(`http://localhost:8000/api/charity/activities_details/${activityid}/`, {
+       
+        headers: {
+            "Authorization": `Bearer ${getToken()}`
+        }
+      })
+      .then((res) => {
+        window.location.reload(false);
+        // console.log(res.data)
+        // setAllActivities(res.data)
+      })
+      .catch((error) => {
+        console.error(error)
+      })   
+}
     return (
+     
         <>    
         <CharNavbar /> 
         <div className = "cont" > 
@@ -71,7 +116,7 @@ const CharityPage = () => {
                                         <div className="card-body">
                                             <h1> </h1>
                                             <p>Title: {news.title}</p>
-                                            <button className = "btn btn-outline-success" onClick={()=>handleDeleteNews(news.id)}> delete </button>
+                                            <button className = "btn btn-outline-danger" onClick={()=>deleteNews(news.id)}> delete  </button>
                                         </div>
                                     </div>
                                 )
@@ -101,8 +146,8 @@ const CharityPage = () => {
                                             <h1> </h1>
                                             <p>Description: {actv.description}</p>
                                             <p>Date: {actv.date}</p>
-                                            <button className = "btn btn-outline-info" onClick={()=>handleDeleteActivity(actv.id)}> delete </button>
-                                        </div>
+                                            <button className = "btn btn-outline-danger" onClick={()=>deleteActivity(actv.id)}> delete </button>
+                                            <Link to="" params={{ value: actv.id }}>update</Link>                                        </div>
                                     </div>
                                 )
                             })
