@@ -30,12 +30,12 @@ const Home = (props) => {
           </nav>
           <div className = "col-10 mx-auto" >
             <div className="mb-5 bg-black rounded mt-3" style={{ width: "80vw", height: "80vh"}}>
-              <MapWrapped
-                  googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAT8FoYfqPANHxoQNVPbhFaQoO6Ex2wtcc`}
+              {/* <MapWrapped
+                  googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=`}
                   loadingElement={<div style={{ height: `100%` }} />}
                   containerElement={<div style={{ height: `100%` }} />}
                   mapElement={<div style={{ height: `100%` }} />}
-                />
+                /> */}
           </div> 
           <section className="text-center mb-5">
               <div className="col-lg-8 mx-auto  py-5">
