@@ -3,5 +3,7 @@
 ###### Charities navigator is a website that provides services for both charities and donators. The charities can open an account where they can manage their activities and news that will be displayed for ordinary users. On the other hand, the donator can get in contact with the charities and book an appointment if it is needed. 
 
 #### Demo
-![an3](https://user-images.githubusercontent.com/72676534/126896623-98c6c415-c44c-4630-8a4f-1f1a8117b598.gif)
+![an22](https://user-images.githubusercontent.com/72676534/126897127-6f427ea3-16ce-486d-9d01-f7de9a13cda8.gif)
+
+![an333](https://user-images.githubusercontent.com/72676534/126897107-9c771d0a-2a2a-4a19-9b6e-ff7c3e75e7af.gif)
 
