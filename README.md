@@ -7,3 +7,11 @@
 
 ![an333](https://user-images.githubusercontent.com/72676534/126897107-9c771d0a-2a2a-4a19-9b6e-ff7c3e75e7af.gif)
 
+#### Technologies:
+* rest_framework_simplejwt
+* Django REST framework toolkit 
+* Django sqlite3 db
+* REACT
+
+
+
